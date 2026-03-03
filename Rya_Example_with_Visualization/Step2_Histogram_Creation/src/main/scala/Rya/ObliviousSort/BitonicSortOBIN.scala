@@ -1,7 +1,7 @@
 package Rya
 
 object BitonicSortOBIN {
-def sortPackets(input: Array[ObinPacket], dummySentinel: ObinPacket, cmp: (ObinPacket, ObinPacket) => Int): Array[ObinPacket] = {
+  def sortPackets(input: Array[ObinPacket], dummySentinel: ObinPacket, cmp: (ObinPacket, ObinPacket) => Int): Array[ObinPacket] = {
     val n = input.length
     var paddedN = 1
     while (paddedN < n) paddedN *= 2

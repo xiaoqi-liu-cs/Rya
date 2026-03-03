@@ -27,7 +27,7 @@ case class ObinPacket(
     override def toString: String = {
       // keyStr is for print & visualization
       val keyStr = if (isFiller) "Filler" else if (isDummy) "Dummy" else item.key.toString
-      val countStr = if (isFiller || isDummy) "-" else item.count.toString
+      val countStr = item.count.toString
       val tagStr = tag match { case 0 => "✔ Normal"; case 1 => "✖ Excess"; case 2 => "⊥ Dummy" }
       val gStr = if (g == Int.MaxValue) " ⊥" else f"$g%2d"
       f"[$keyStr%8s, $countStr%2s | g=$gStr | p=$priority%2d | off=$offset%d | $tagStr]"
