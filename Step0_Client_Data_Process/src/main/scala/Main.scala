@@ -81,12 +81,12 @@ object Main {
 
     // ------------ Output Processed Data ------------
 
-    val outIntFile = new File(s"${baseName}_input_int.txt")
+    val outIntFile = new File(s"${baseName}_Rya_Input.txt")
     val outIntWriter = new PrintWriter(outIntFile)
     try { outIntWriter.println(inputDataInts.mkString(" ")) } finally { outIntWriter.close() }
     println(Console.CYAN + s"[PreProcess] Saved Int array to ${outIntFile.getAbsolutePath}\n" + Console.RESET)
 
-    val mappingFileStr = sys.props.getOrElse("MAPPING_FILE", s"${baseName}_mapping.csv")
+    val mappingFileStr = sys.props.getOrElse("MAPPING_FILE", s"${baseName}_Rya_Mapping.csv")
     val mappingFile = new File(mappingFileStr)
     val mappingWriter = new PrintWriter(mappingFile)
     try {
@@ -104,8 +104,8 @@ object Main {
   def runAfterProcess(): Unit = {
     // ------------ Initialization ------------
     val baseName = sys.props.getOrElse("BASE_NAME", "Example")
-    val outputFileStr = sys.props.getOrElse("OUTPUT_INT_FILE", s"${baseName}_output_int.txt")
-    val mappingFileStr = sys.props.getOrElse("MAPPING_FILE", s"${baseName}_mapping.csv")
+    val outputFileStr = sys.props.getOrElse("OUTPUT_INT_FILE", s"${baseName}_Rya_Output.txt")
+    val mappingFileStr = sys.props.getOrElse("MAPPING_FILE", s"${baseName}_Rya_Mapping.csv")
 
     if (!new File(outputFileStr).exists()) {
       println(Console.RED + s"Error: Output Int file '$outputFileStr' not found." + Console.RESET)
@@ -150,7 +150,7 @@ object Main {
 
     // ------------ Output Processed Data ------------
 
-    val finalOutputFile = new File(s"${baseName}_output_string.txt")
+    val finalOutputFile = new File(s"${baseName}_Rya_Output_Final.txt")
     val finalWriter = new PrintWriter(finalOutputFile)
     try {
       sortedStringHistogram.foreach { case (str, count) => finalWriter.println(f"($str, $count)") }

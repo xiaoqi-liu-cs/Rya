@@ -15,20 +15,20 @@ Reads a plaintext file (e.g., `Example.txt`) and generates a integer array for t
    * `-DINPUT_FILE=Example.txt`
 2. Run the project by **sbt run**
 3. Outputs generated:
-   * `Example_input_int.txt` (Upload this to the Server)
-   * `Example_mapping.csv` (Keep this secret on the Client!)
+   * `Example_Rya_Input.txt` (Upload this to the Server)
+   * `Example_Rya_Mapping.csv` (Keep this secret on the Client!)
 
 ### Step 2: Server Computation (Run by Server)
-Upload `Example_input_int.txt` to the main RYA project, and run RYA protocol by **sbt run**
-The Server calculates and returns `Example_output_int.txt`.
+Upload `Example_Rya_Input.txt` to the main RYA project, and run RYA protocol by **sbt run**
+The Server calculates and returns `Example_Rya_Output.txt`.
 
 ### Step 3: AfterProcess (Run by Client)
 Recovers the final plaintext string histogram from the Server's integer output.
 1. In `build.sbt`, set:
    * `-DMODE=AfterProcess`
-   * `-DOUTPUT_INT_FILE=Example_output_int.txt`
+   * `-DOUTPUT_INT_FILE=Example_Rya_Output.txt`
 2. Ensure `Example_mapping.csv` is in the directory.
 3. Run the project by **sbt run**
 4. Final Output:
    * Displays the top 10 results in the console.
-   * Generates `Example_output_string.txt` containing the full, string histogram.
+   * Generates `Example_Rya_Output_Final.txt` containing the full, string histogram.

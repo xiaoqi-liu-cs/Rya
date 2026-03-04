@@ -22,11 +22,12 @@ outputStrategy := Some(StdoutOutput)
 javaOptions ++= Seq(
   "-DSORT_ALGO=bitonic",
   
+  //"-DBATCH_SIZE=100000",
   "-DBATCH_SIZE=numUniqueKeys",
     
-  "-DBASE_NAME=Example",  
-  "-DINPUT_FILE=Example_Rya_Input.txt"
+  "-DBASE_NAME=identical_int",  
+  "-DINPUT_FILE=identical_int.txt"
 )
 // Configure BASE_NAME is only used for naming the output.
-// Configure INPUT_FILE: "Example_Rya_Input.txt" must be input of Integer Array. 
+// Configure INPUT_FILE: "Example_Rya_Input.txt" must be input of Integer Array (from 0 to numUniqueKeys). 
 // User can PreProcess String input by Step0: Client Side Data Process

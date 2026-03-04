@@ -13,11 +13,11 @@ outputStrategy := Some(StdoutOutput)
 // OUTPUT_INT_FILE applies to AfterProcess
 
 javaOptions ++= Seq(
-  "-DMODE=PreProcess",
+  "-DMODE=AfterProcess",
   
   "-DBASE_NAME=Example", // baseName is only used for naming the processedData
   "-DINPUT_FILE=Example.txt",
   
-  "-DOUTPUT_INT_FILE=Example_output_int.txt"
-  // "-DMAPPING_FILE=Example_mapping.csv" // Optional, automatically is {baseName}_mapping.csv
+  "-DOUTPUT_INT_FILE=Example_Rya_Output.txt"
+  // "-DMAPPING_FILE=Example_Rya_Mapping.csv" // Optional, automatically is {baseName}_mapping.csv
 )

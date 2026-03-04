@@ -1,14 +1,17 @@
 # Step 2: Oblivious Histogram Creation
-*(Part of `Rya_Example_with_Visualization`)*
+*(Part of `Rya_Example_NO_Visualization`)*
 
 ## Purpose of this Project
-This project serves as a **visualization prototype** for the Oblivious Histogram Creation phase of the RYA MapReduce protocol. 
+This project is the **streamlined, performance-oriented implementation** of the Oblivious Histogram Creation phase for the RYA MapReduce protocol. 
 
-Unlike the highly streamlined production version of Rya, **this project is intentionally packed with rich debug prints and state visualizations**. It is designed to help researchers visually track data flows, Butterfly Network routing, and how `OBIN` (Oblivious Bin Packing) aligns distributed counts without leaking memory access patterns.
+To ensure strict compliance with Oblivious principles and to maximize execution speed, **all internal visualization, console logging, and debug prints have been stripped from this version.** It is designed to run efficiently on large datasets without the I/O bottleneck of console tracking.
+
+## Looking for the Visualization Version?
+> If you want to visually track data flows, step-by-step Butterfly Network routing, or debug how `OBIN` aligns distributed counts, please refer to the sister project located at `../Rya_Example_with_Visualization/Step2_Histogram_Creation`.
 
 ## ⚠️ Important: Input Data Format constraint
-**This module operates STRICTLY on `Int` data (from 0 to numUniqueKeys).** To guarantee security and eliminate $O(N)$ string comparison leakages on the Server side, this module does not process `String` or text data. 
-If your raw dataset contains strings (e.g., CSV files) or integers doesn't fullfill the requirement of **(from 0 to numUniqueKeys)**, **you MUST first run `Step0_Client_Data_Process`** to map the strings to a dense integer array. Provide the resulting `_input_int.txt` file as input to this step.
+**This module operates STRICTLY on `Int` data (from 0 to numUniqueKeys!).** To guarantee security and eliminate $O(N)$ string comparison leakages on the Server side, this module does not process `String` or text data. 
+If your raw dataset contains strings (e.g., CSV files) or doesn't fullfill the requirement of **(from 0 to numUniqueKeys)**, **you MUST first run `Step0_Client_Data_Process`** to map the strings to a dense integer array. Provide the resulting `_Rya_Input.txt` file as input to this step.
 
 ### Algorithms Inside
 * **OHIST, OLABEL, OBINSUM, OCNT**: Implemented separately following the formal Rya paper specifications.
@@ -37,10 +40,10 @@ javaOptions ++= Seq(
   "-DBATCH_SIZE=numUniqueKeys",
     
   "-DBASE_NAME=Example",  
-  "-DINPUT_FILE=Example_Rya_Input.txt"
+  "-DINPUT_FILE=Example_Rya_Output.txt"
 )
 // Configure BASE_NAME is only used for naming the output.
-// Configure INPUT_FILE: "Example_Rya_Input.txt" must be input of Integer Array. 
+// Configure INPUT_FILE: "Example_Rya_Output.txt" must be input of Integer Array. 
 // User can PreProcess String input by Step0: Client Side Data Process
 ```
 Then run the program by **sbt run**

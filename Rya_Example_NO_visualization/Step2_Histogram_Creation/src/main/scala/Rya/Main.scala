@@ -18,8 +18,9 @@ object Main {
     if (inputDataInts.isEmpty) return
     
     val N = inputDataInts.length
-    println(Console.CYAN + s"[Config] Input: Loaded $N items." + Console.RESET)
+    println(Console.CYAN + s"[Config] Input: Loaded N = $N items, number of unique items = $numUniqueKeys" + Console.RESET)
     // ===============================================================================================
+  
 
     // ===============================================================================================
     // 3. Get batchSize and numBatches before running Rya
@@ -30,7 +31,7 @@ object Main {
     // Record the time duration of the program
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     val startDateTime = LocalDateTime.now()
-    println(Console.GREEN + s"\n>>> Program Started at: ${startDateTime.format(dateFormatter)}" + Console.RESET)
+    println(Console.GREEN + s"\n>>> RYA Protocol Started at: ${startDateTime.format(dateFormatter)}" + Console.RESET)
 
     // ===============================================================================================
     // 4. Start of time recording
@@ -38,7 +39,7 @@ object Main {
 
     // ===============================================================================================
     // Call RYA protocol
-    val histogram = runRyaProtocol(inputDataInts, batchSize, globalKeys)
+    val histogram = runRyaProtocol(inputDataInts, batchSize, globalKeys, numBatches)
     // ===============================================================================================
     
     // End of time recording
@@ -56,9 +57,9 @@ object Main {
     // ===============================================================================================
   }
 
-  def runRyaProtocol(inputData: Array[Int], batchSize: Int, globalKeys: Array[Int]): Map[Int, Int] = {
+  def runRyaProtocol(inputData: Array[Int], batchSize: Int, globalKeys: Array[Int], numBatches: Int): Map[Int, Int] = {
     // Call RYA Protocol
-    val histogram = OHIST.runOHIST(inputData, batchSize, globalKeys)
+    val histogram = OHIST.runOHIST(inputData, batchSize, globalKeys, numBatches)
     
     histogram
   }

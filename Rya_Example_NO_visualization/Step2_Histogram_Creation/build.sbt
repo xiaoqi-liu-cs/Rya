@@ -20,13 +20,11 @@ outputStrategy := Some(StdoutOutput)
 // 3. If BATCH_SIZE < number of unique keys ($numUniqueKeys). Keys will be split across multiple batches (valid but less efficient).
 
 javaOptions ++= Seq(
-  "-DSORT_ALGO=bitonic",
-  
-  "-DBATCH_SIZE=numUniqueKeys",
-    
-  "-DBASE_NAME=Example",  
-  "-DINPUT_FILE=Example_Rya_Input.txt"
+  s"-DSORT_ALGO=${sys.props.getOrElse("SORT_ALGO", "bitonic")}",
+  s"-DBATCH_SIZE=${sys.props.getOrElse("BATCH_SIZE", "numUniqueKeys")}",
+  s"-DBASE_NAME=${sys.props.getOrElse("BASE_NAME", "Example")}",
+  s"-DINPUT_FILE=${sys.props.getOrElse("INPUT_FILE", "Example_Rya_Input.txt")}"
 )
 // Configure BASE_NAME is only used for naming the output.
-// Configure INPUT_FILE: "Example_Rya_Input.txt" must be input of Integer Array. 
+// Configure INPUT_FILE: "Example_Rya_Input.txt" must be input of Integer Array (from 0 to numUniqueKeys). 
 // User can PreProcess String input by Step0: Client Side Data Process

@@ -33,9 +33,9 @@ object DataLoader {
     
     (inputDataInts, globalKeys, numUniqueKeys)
   }
-  
+
   // ======================================================================================
-  
+
   // --- Save RYA Output ---
   def saveOutput(histogram: Map[Int, Int], baseName: String): Unit = {
     val sortedHistogram = histogram.toSeq.sortBy(_._1)
