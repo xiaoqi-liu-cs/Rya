@@ -36,6 +36,26 @@ def convert_parquet_to_csv(parquet_path, csv_path):
         return False
 
 
+# Align the arbitrary and messy data table formats to the same
+# Used for merging datasets
+def align_table_to_schema(table, target_schema):
+    # 1. Change all column names to be lowercase
+    new_names = [name.lower() for name in table.column_names]
+    table = table.rename_columns(new_names)
+    
+    # 2. If any columns are missing for the current year-month data, fill with null values.
+    for name in target_schema.names:
+        if name not in table.schema.names:
+            null_arr = pa.nulls(table.num_rows, type=target_schema.field(name).type)
+            table = table.append_column(name, null_arr)
+            
+    # 3. Reorder the columns strictly according to the format.
+    table = table.select(target_schema.names)
+    
+    # 4. Type casting (e.g., converting int32 to int64, or null to double)
+    return table.cast(target_schema)
+
+
 # Merge month 01 up to 12 together and output _wy.parquet
 def merge_single_year(year, raw_dir, out_dir):
     print(f"\n=== Start merging full year data for {year} ===")
@@ -53,13 +73,24 @@ def merge_single_year(year, raw_dir, out_dir):
         parquet_file = os.path.join(raw_dir, f"yellow_tripdata_{year}-{month_str}.parquet")
         
         if os.path.exists(parquet_file):
-            tables.append(pq.read_table(parquet_file))
+            table = pq.read_table(parquet_file)
+            
+            # Lowercase column names
+            table = table.rename_columns([c.lower() for c in table.column_names])
+            tables.append(table)
             print(f"  -> Loaded {parquet_file}")
         else:
             print(f"  -> Skipping missing file: {parquet_file}")
             
     if len(tables) > 0:
-        # Merge Parquet tables directly
+        # Extract the common compatible schema for all months of the current year
+        schemas = [t.schema for t in tables]
+        unified_schema = pa.unify_schemas(schemas)
+
+        # Force all month data to be aligned to a compatible schema
+        aligned_tables = [align_table_to_schema(t, unified_schema) for t in tables]
+        
+        # Merge tables with unified schema
         merged_table = pa.concat_tables(tables)
         pq.write_table(merged_table, out_parquet)
         print(f"==> {year} full year data merged, saved to: {out_parquet}")
@@ -92,15 +123,23 @@ def merge_multiple_years(start_year, end_year, raw_dir, out_dir):
     if yearly_parquets:
         print(f"\n[*] Appending all yearly data to {start_year}-{end_year} aggregated set...")
         
-        # Read the first table to get the schema for the ParquetWriter
-        first_table = pq.read_table(yearly_parquets[0])
+        # Extract the common compatible schema for all years
+        schemas = []
+        for y_pq in yearly_parquets:
+            schema = pq.read_schema(y_pq)
+            schema = schema.with_names([c.lower() for c in schema.names])
+            schemas.append(schema)
+        
+        unified_schema = pa.unify_schemas(schemas)
         
         # 2. Append the generated yearly parquets to the final multi-year parquet using ParquetWriter
-        with pq.ParquetWriter(final_parquet, first_table.schema) as writer:
+        # Force alignment of data for each year to prevent cross-year schema conflicts.
+        with pq.ParquetWriter(final_parquet, unified_schema) as writer:
             for y_pq in yearly_parquets:
                 print(f"  -> Writing {os.path.basename(y_pq)} to aggregated file...")
                 table = pq.read_table(y_pq)
-                writer.write_table(table)
+                aligned_table = align_table_to_schema(table, unified_schema)
+                writer.write_table(aligned_table)
                 
         print(f"\n========================================")
         print(f"Multi-year data archiving completed: {final_parquet}")

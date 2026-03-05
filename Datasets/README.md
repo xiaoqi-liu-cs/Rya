@@ -51,8 +51,7 @@ You can run the all-in-one bash script. It will automatically set up the virtual
 chmod +x process_datasets_NY_Taxi.sh
 ./process_datasets_NY_Taxi.sh
 ```
-Example:
-python3 process_datasets_NY_Taxi.py convert_to_csv raw_data/yellow_tripdata_2020-01.parquet processed_data/yellow_tripdata_2020-01.csv
+
 
 #### Option 2: Manual Step-by-Step Execution
 If you prefer to process specific files manually, make sure your **virtual environment** is activated, then use the Python CLI commands:
@@ -65,6 +64,10 @@ python3 process_datasets_NY_Taxi.py merge_single_year 2020
 python3 process_datasets_NY_Taxi.py merge_multi_year 2021 2025
 ```
 * 3. Convert any Parquet file to CSV:
+```bash
+python3 process_datasets_NY_Taxi.py convert_to_csv raw_data/yellow_tripdata_2020-01.parquet processed_data/yellow_tripdata_2020-01.csv
+```
+* 4. If you want to convert a single month data for test:
 ```bash
 python3 process_datasets_NY_Taxi.py convert_to_csv raw_data/yellow_tripdata_2020-01.parquet processed_data/yellow_tripdata_2020-01.csv
 ```

@@ -10,10 +10,10 @@ echo "Phase 1: Merging Parquet Datasets"
 echo "========================================"
 
 # Merge 2020 single year -> yellow_tripdata_2020_wy.parquet
-python3 process_datasets.py merge_single_year 2020
+python3 process_datasets_NY_Taxi.py merge_single_year 2020
 
 # Merge 2021-2025 multi-year -> yellow_tripdata_20212025.parquet
-python3 process_datasets.py merge_multi_year 2021 2025
+python3 process_datasets_NY_Taxi.py merge_multi_year 2021 2025
 
 
 echo ""
@@ -22,10 +22,10 @@ echo "Phase 2: Converting Parquet to CSV"
 echo "========================================"
 
 # Convert 2020 Parquet to CSV -> yellow_tripdata_2020_wy.csv
-python3 process_datasets.py convert_to_csv processed_data/yellow_tripdata_2020_wy.parquet processed_data/yellow_tripdata_2020_wy.csv
+python3 process_datasets_NY_Taxi.py convert_to_csv processed_data/yellow_tripdata_2020_wy.parquet processed_data/yellow_tripdata_2020_wy.csv
 
 # Convert 2021-2025 Parquet to CSV -> yellow_tripdata_20212025.csv
-python3 process_datasets.py convert_to_csv processed_data/yellow_tripdata_20212025.parquet processed_data/yellow_tripdata_20212025.csv
+python3 process_datasets_NY_Taxi.py convert_to_csv processed_data/yellow_tripdata_20212025.parquet processed_data/yellow_tripdata_20212025.csv
 
 # Quit virtual environment
 deactivate
